@@ -157,8 +157,11 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         }
     }
 
-    protected function maybeAddParentCategories($categories)
+    protected function maybeAddParentCategories(?array $categories): ?array
     {
+        if (!$categories) {
+            return $categories;
+        }
         $categoryapi = \PoPSchema\Categories\FunctionAPIFactory::getInstance();
         // If the categories are nested under other categories, ask if to add those too
         if ($this->addParentCategories()) {
@@ -215,7 +218,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         return $post_data;
     }
 
-    protected function getCategories(array $form_data): array
+    protected function getCategories(array $form_data): ?array
     {
         $cats = parent::getCategories($form_data);
         return $this->maybeAddParentCategories($cats);
