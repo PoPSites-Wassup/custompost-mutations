@@ -109,8 +109,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
     {
         parent::validateupdate($errors);
 
-        // The ID comes directly as a parameter in the request, it's not a form field
-        $post_id = $_REQUEST[POP_INPUTNAME_POSTID];
+        $post_id = $this->getUpdateCustomPostID();
 
         $customPostTypeAPI = CustomPostTypeAPIFacade::getInstance();
 
