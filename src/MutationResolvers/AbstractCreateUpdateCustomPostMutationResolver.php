@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wassup\CustomPostMutations\MutationResolvers;
+namespace PoPSitesWassup\CustomPostMutations\MutationResolvers;
 
 define('POP_POSTSCREATION_CONSTANT_VALIDATECATEGORIESTYPE_ATLEASTONE', 1);
 define('POP_POSTSCREATION_CONSTANT_VALIDATECATEGORIESTYPE_EXACTLYONE', 2);

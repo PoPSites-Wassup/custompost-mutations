@@ -26,7 +26,7 @@ Initialize the component:
 
 ``` php
 \PoP\Root\ComponentLoader::initializeComponents([
-    \Wassup\CustomPostMutations\Component::class,
+    \PoPSitesWassup\CustomPostMutations\Component::class,
 ]);
 ```
 

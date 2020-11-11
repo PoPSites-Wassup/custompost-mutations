@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wassup\CustomPostMutations;
+namespace PoPSitesWassup\CustomPostMutations;
 
 use PoP\Root\Component\AbstractComponent;
 

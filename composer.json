@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Wassup\\CustomPostMutations\\": "src"
+            "PoPSitesWassup\\CustomPostMutations\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Wassup\\CustomPostMutations\\": "tests"
+            "PoPSitesWassup\\CustomPostMutations\\": "tests"
         }
     },
     "scripts": {

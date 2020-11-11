@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wassup\CustomPostMutations\MutationResolvers;
+namespace PoPSitesWassup\CustomPostMutations\MutationResolvers;
 
 use PoP\Hooks\Facades\HooksAPIFacade;
 use PoPSchema\CustomPosts\Types\Status;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wassup\CustomPostMutations;
+namespace PoPSitesWassup\CustomPostMutations;
 
 use PHPUnit\Framework\TestCase;
 

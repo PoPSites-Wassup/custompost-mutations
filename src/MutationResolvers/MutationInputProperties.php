@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wassup\CustomPostMutations\MutationResolvers;
+namespace PoPSitesWassup\CustomPostMutations\MutationResolvers;
 
 class MutationInputProperties extends \PoPSchema\CustomPostMutations\MutationResolvers\MutationInputProperties
 {
