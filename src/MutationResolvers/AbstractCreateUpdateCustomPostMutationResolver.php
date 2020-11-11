@@ -185,7 +185,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         parent::addCreateUpdateCustomPostData($post_data, $form_data);
 
         if (!$this->supportsTitle()) {
-            unset($post_data['custompost-title']);
+            unset($post_data['title']);
         }
     }
 
@@ -196,8 +196,8 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         $this->addCustomPostType($post_data);
 
         // Status: If provided, Validate the value is permitted, or get the default value otherwise
-        if ($status = $post_data['custom-post-status']) {
-            $post_data['custom-post-status'] = \GD_CreateUpdate_Utils::getUpdatepostStatus($status, $this->moderate());
+        if ($status = $post_data['status']) {
+            $post_data['status'] = \GD_CreateUpdate_Utils::getUpdatepostStatus($status, $this->moderate());
         }
 
         return $post_data;
