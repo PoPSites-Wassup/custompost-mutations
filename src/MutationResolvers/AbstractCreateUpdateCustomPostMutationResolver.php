@@ -61,9 +61,9 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
     }
 
     // Update Post Validation
-    protected function validatecontent(&$errors, $form_data)
+    protected function validateContent(array &$errors, array $form_data): void
     {
-        parent::validatecontent($errors, $form_data);
+        parent::validateContent($errors, $form_data);
 
         if ($this->supportsTitle() && empty($form_data[MutationInputProperties::TITLE])) {
             $errors[] = TranslationAPIFacade::getInstance()->__('The title cannot be empty', 'pop-application');
@@ -96,9 +96,9 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         }
     }
 
-    protected function validateupdatecontent(&$errors, $form_data)
+    protected function validateUpdateContent(array &$errors, array $form_data): void
     {
-        parent::validateupdatecontent($errors, $form_data);
+        parent::validateUpdateContent($errors, $form_data);
 
         if (isset($form_data[MutationInputProperties::REFERENCES]) && in_array($form_data[MutationInputProperties::ID], $form_data[MutationInputProperties::REFERENCES])) {
             $errors[] = TranslationAPIFacade::getInstance()->__('The post cannot be a response to itself', 'pop-postscreation');
@@ -106,9 +106,9 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
     }
 
     // Update Post Validation
-    protected function validateupdate(&$errors)
+    protected function validateUpdate(array &$errors): void
     {
-        parent::validateupdate($errors);
+        parent::validateUpdate($errors);
 
         $post_id = $this->getUpdateCustomPostID();
 
@@ -133,7 +133,10 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         // }
     }
 
-    protected function additionals($post_id, $form_data)
+    /**
+     * @param mixed $post_id
+     */
+    protected function additionals($post_id, array $form_data): void
     {
         parent::additionals($post_id, $form_data);
 
@@ -180,7 +183,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         return $categories;
     }
 
-    protected function addCreateUpdateCustomPostData(array &$post_data, array $form_data)
+    protected function addCreateUpdateCustomPostData(array &$post_data, array $form_data): void
     {
         parent::addCreateUpdateCustomPostData($post_data, $form_data);
 
@@ -189,7 +192,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         }
     }
 
-    protected function getUpdateCustomPostData($form_data)
+    protected function getUpdateCustomPostData(array $form_data): array
     {
         $post_data = parent::getUpdateCustomPostData($form_data);
 
@@ -208,7 +211,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         return \GD_CreateUpdate_Utils::moderate();
     }
 
-    protected function getCreateCustomPostData($form_data)
+    protected function getCreateCustomPostData(array $form_data): array
     {
         $post_data = parent::getCreateCustomPostData($form_data);
 
@@ -224,7 +227,10 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         return $this->maybeAddParentCategories($cats);
     }
 
-    protected function createUpdateCustomPost($form_data, $post_id)
+    /**
+     * @param mixed $post_id
+     */
+    protected function createUpdateCustomPost(array $form_data, $post_id): void
     {
         parent::createUpdateCustomPost($form_data, $post_id);
 
@@ -233,7 +239,10 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         }
     }
 
-    protected function getUpdateCustomPostDataLog($post_id, $form_data)
+    /**
+     * @param mixed $post_id
+     */
+    protected function getUpdateCustomPostDataLog($post_id, array $form_data): array
     {
         $log = parent::getUpdateCustomPostDataLog($post_id, $form_data);
 
