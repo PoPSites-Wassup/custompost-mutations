@@ -106,43 +106,43 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
     }
 
     // Update Post Validation
-    protected function validateUpdate(array &$errors): void
+    protected function validateUpdate(array &$errors, array $form_data): void
     {
-        parent::validateUpdate($errors);
+        parent::validateUpdate($errors, $form_data);
 
-        $post_id = $this->getUpdateCustomPostID();
+        $customPostID = $form_data[MutationInputProperties::ID];
 
         $customPostTypeAPI = CustomPostTypeAPIFacade::getInstance();
 
-        if (!in_array($customPostTypeAPI->getStatus($post_id), array(Status::DRAFT, Status::PENDING, Status::PUBLISHED))) {
+        if (!in_array($customPostTypeAPI->getStatus($customPostID), array(Status::DRAFT, Status::PENDING, Status::PUBLISHED))) {
             $errors[] = TranslationAPIFacade::getInstance()->__('Hmmmmm, this post seems to have been deleted...', 'pop-application');
             return;
         }
 
         // Validation below not needed, since this is done in the Checkpoint already
         // // Validate user permission
-        // if (!gdCurrentUserCanEdit($post_id)) {
+        // if (!gdCurrentUserCanEdit($customPostID)) {
         //     $errors[] = TranslationAPIFacade::getInstance()->__('Your user doesn\'t have permission for editing.', 'pop-application');
         // }
 
         // // The nonce comes directly as a parameter in the request, it's not a form field
         // $nonce = $_REQUEST[POP_INPUTNAME_NONCE];
-        // if (!gdVerifyNonce($nonce, GD_NONCE_EDITURL, $post_id)) {
+        // if (!gdVerifyNonce($nonce, GD_NONCE_EDITURL, $customPostID)) {
         //     $errors[] = TranslationAPIFacade::getInstance()->__('Incorrect URL', 'pop-application');
         //     return;
         // }
     }
 
     /**
-     * @param mixed $post_id
+     * @param mixed $customPostID
      */
-    protected function additionals($post_id, array $form_data): void
+    protected function additionals($customPostID, array $form_data): void
     {
-        parent::additionals($post_id, $form_data);
+        parent::additionals($customPostID, $form_data);
 
         // Topics
         if (\PoP_ApplicationProcessors_Utils::addCategories()) {
-            \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($post_id, GD_METAKEY_POST_CATEGORIES, $form_data[MutationInputProperties::TOPICS]);
+            \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($customPostID, GD_METAKEY_POST_CATEGORIES, $form_data[MutationInputProperties::TOPICS]);
         }
 
         // Only if the Volunteering is enabled
@@ -150,13 +150,13 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
             if (defined('POP_VOLUNTEERING_ROUTE_VOLUNTEER') && POP_VOLUNTEERING_ROUTE_VOLUNTEER) {
                 // Volunteers Needed?
                 if (isset($form_data[MutationInputProperties::VOLUNTEERSNEEDED])) {
-                    \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($post_id, GD_METAKEY_POST_VOLUNTEERSNEEDED, $form_data[MutationInputProperties::VOLUNTEERSNEEDED], true, true);
+                    \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($customPostID, GD_METAKEY_POST_VOLUNTEERSNEEDED, $form_data[MutationInputProperties::VOLUNTEERSNEEDED], true, true);
                 }
             }
         }
 
         if (\PoP_ApplicationProcessors_Utils::addAppliesto()) {
-            \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($post_id, GD_METAKEY_POST_APPLIESTO, $form_data[MutationInputProperties::APPLIESTO]);
+            \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($customPostID, GD_METAKEY_POST_APPLIESTO, $form_data[MutationInputProperties::APPLIESTO]);
         }
     }
 
@@ -228,26 +228,26 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
     }
 
     /**
-     * @param mixed $post_id
+     * @param mixed $customPostID
      */
-    protected function createUpdateCustomPost(array $form_data, $post_id): void
+    protected function createUpdateCustomPost(array $form_data, $customPostID): void
     {
-        parent::createUpdateCustomPost($form_data, $post_id);
+        parent::createUpdateCustomPost($form_data, $customPostID);
 
         if (isset($form_data[MutationInputProperties::REFERENCES])) {
-            \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($post_id, GD_METAKEY_POST_REFERENCES, $form_data[MutationInputProperties::REFERENCES]);
+            \PoPSchema\CustomPostMeta\Utils::updateCustomPostMeta($customPostID, GD_METAKEY_POST_REFERENCES, $form_data[MutationInputProperties::REFERENCES]);
         }
     }
 
     /**
-     * @param mixed $post_id
+     * @param mixed $customPostID
      */
-    protected function getUpdateCustomPostDataLog($post_id, array $form_data): array
+    protected function getUpdateCustomPostDataLog($customPostID, array $form_data): array
     {
-        $log = parent::getUpdateCustomPostDataLog($post_id, $form_data);
+        $log = parent::getUpdateCustomPostDataLog($customPostID, $form_data);
 
         if (isset($form_data[MutationInputProperties::REFERENCES])) {
-            $previous_references = \PoPSchema\CustomPostMeta\Utils::getCustomPostMeta($post_id, GD_METAKEY_POST_REFERENCES);
+            $previous_references = \PoPSchema\CustomPostMeta\Utils::getCustomPostMeta($customPostID, GD_METAKEY_POST_REFERENCES);
             $log['new-references'] = array_diff($form_data[MutationInputProperties::REFERENCES], $previous_references);
         }
 
