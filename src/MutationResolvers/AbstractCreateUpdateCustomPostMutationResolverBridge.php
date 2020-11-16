@@ -8,9 +8,9 @@ use PoP\Hooks\Facades\HooksAPIFacade;
 use PoPSchema\CustomPosts\Types\Status;
 use PoP\Translation\Facades\TranslationAPIFacade;
 use PoPSchema\CustomPosts\Facades\CustomPostTypeAPIFacade;
-use PoP\ComponentModel\ModuleProcessors\DataloadingConstants;
 use PoP\ComponentModel\Facades\ModuleProcessors\ModuleProcessorManagerFacade;
-use PoP\ComponentModel\MutationResolvers\AbstractCRUDComponentMutationResolverBridge;
+use PoPSitesWassup\CustomPostMutations\MutationResolvers\MutationInputProperties;
+use PoPSchema\CustomPostMediaMutations\MutationResolvers\MutationInputProperties as CustomPostMediaMutationInputProperties;
 
 abstract class AbstractCreateUpdateCustomPostMutationResolverBridge extends \PoPSchema\CustomPostMutations\MutationResolvers\AbstractCreateUpdateCustomPostMutationResolverBridge
 {
@@ -56,6 +56,10 @@ abstract class AbstractCreateUpdateCustomPostMutationResolverBridge extends \PoP
             $form_data[MutationInputProperties::STATUS] = $keepasdraft ? Status::DRAFT : Status::PUBLISHED;
         }
 
+        if ($featuredimage = $this->getFeaturedimageModule()) {
+            $form_data[CustomPostMediaMutationInputProperties::FEATUREDIMAGE_ID] = $moduleprocessor_manager->getProcessor($featuredimage)->getValue($featuredimage);
+        }
+
         if ($this->addReferences()) {
             $references = $moduleprocessor_manager->getProcessor([\PoP_Module_Processor_PostSelectableTypeaheadFormComponents::class, \PoP_Module_Processor_PostSelectableTypeaheadFormComponents::MODULE_FORMCOMPONENT_SELECTABLETYPEAHEAD_REFERENCES])->getValue([\PoP_Module_Processor_PostSelectableTypeaheadFormComponents::class, \PoP_Module_Processor_PostSelectableTypeaheadFormComponents::MODULE_FORMCOMPONENT_SELECTABLETYPEAHEAD_REFERENCES]);
             $form_data[MutationInputProperties::REFERENCES] = $references ?? array();
@@ -81,6 +85,11 @@ abstract class AbstractCreateUpdateCustomPostMutationResolverBridge extends \PoP
         }
 
         return $form_data;
+    }
+
+    protected function getFeaturedimageModule()
+    {
+        return [\PoP_Module_Processor_FeaturedImageFormComponents::class, \PoP_Module_Processor_FeaturedImageFormComponents::MODULE_FORMCOMPONENT_FEATUREDIMAGE];
     }
 
     protected function addReferences()

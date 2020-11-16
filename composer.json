@@ -19,7 +19,8 @@
     "prefer-stable": true,
     "require": {
         "php": "~7.4",
-        "pop-schema/custompost-mutations": "dev-master"
+        "pop-schema/custompost-mutations": "dev-master",
+        "pop-schema/custompostmedia-mutations": "dev-master"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12",

@@ -11,6 +11,7 @@ use PoP\Hooks\Facades\HooksAPIFacade;
 use PoPSchema\CustomPosts\Types\Status;
 use PoP\Translation\Facades\TranslationAPIFacade;
 use PoPSchema\CustomPosts\Facades\CustomPostTypeAPIFacade;
+use PoPSchema\CustomPostMediaMutations\MutationResolvers\MutationInputProperties as CustomPostMediaMutationInputProperties;
 
 abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema\CustomPostMutations\MutationResolvers\AbstractCreateUpdateCustomPostMutationResolver
 {
@@ -29,7 +30,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
         );
     }
 
-    protected function isFeaturedimageMandatory()
+    protected function isFeaturedImageMandatory()
     {
         return false;
     }
@@ -77,7 +78,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
             $errors[] = TranslationAPIFacade::getInstance()->__('The content cannot be empty', 'pop-application');
         }
 
-        if ($this->isFeaturedimageMandatory() && empty($form_data[MutationInputProperties::FEATUREDIMAGE])) {
+        if ($this->isFeaturedImageMandatory() && empty($form_data[CustomPostMediaMutationInputProperties::FEATUREDIMAGE_ID])) {
             $errors[] = TranslationAPIFacade::getInstance()->__('The featured image has not been set', 'pop-application');
         }
 
