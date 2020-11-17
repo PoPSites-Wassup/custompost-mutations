@@ -223,7 +223,8 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends \PoPSchema
 
     protected function getCategories(array $form_data): ?array
     {
-        $cats = parent::getCategories($form_data);
+        // $cats = parent::getCategories($form_data);
+        $cats = $form_data[MutationInputProperties::CATEGORIES];
         return $this->maybeAddParentCategories($cats);
     }
 
