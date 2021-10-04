@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace PoPSitesWassup\CustomPostMutations\MutationResolvers;
 
-use Symfony\Contracts\Service\Attribute\Required;
 use PoPSchema\CustomPostMediaMutations\MutationResolvers\MutationInputProperties as CustomPostMediaMutationInputProperties;
 use PoPSchema\CustomPostMeta\Utils;
 use PoPSchema\CustomPostMutations\MutationResolvers\AbstractCreateUpdateCustomPostMutationResolver as UpstreamAbstractCreateUpdateCustomPostMutationResolver;
 use PoPSchema\CustomPosts\Types\Status;
 use PoPSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class AbstractCreateUpdateCustomPostMutationResolver extends UpstreamAbstractCreateUpdateCustomPostMutationResolver
 {
@@ -18,7 +18,7 @@ abstract class AbstractCreateUpdateCustomPostMutationResolver extends UpstreamAb
     protected PostCategoryTypeAPIInterface $postCategoryTypeAPI;
 
     #[Required]
-    public function autowireCustomPostMutationsAbstractCreateUpdateCustomPostMutationResolver(
+    final public function autowireCustomPostMutationsAbstractCreateUpdateCustomPostMutationResolver(
         PostCategoryTypeAPIInterface $postCategoryTypeAPI,
     ): void {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
